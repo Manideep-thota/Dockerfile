@@ -10,7 +10,7 @@ pipeline {
         
         stage('Git Clone') {
             steps {
-                git 'https://github.com/manideep-tfs/docker'
+                git 'https://github.com/Manideep-thota/Dockerfile'
             }
         }
 

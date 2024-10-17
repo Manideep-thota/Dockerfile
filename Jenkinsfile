@@ -14,13 +14,13 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Docker Build') {
             steps {
                 sh 'docker build -t manideep9946/nodeapp_test:latest .'
             }
         }
 
-        stage('Login') {
+        stage('DOCKER HUB') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }

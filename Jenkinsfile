@@ -42,8 +42,8 @@ pipeline {
             steps {
                 script {
                     context = [:]
-                    context.put("workDirEnv", WORKSPACE)
-                    context.put("workDir", WORKSPACE)
+                    context.put("workDirEnv", Manideep)
+                    context.put("workDir", Manideep)
                     println(context)
                 }
             }

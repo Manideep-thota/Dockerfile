@@ -29,9 +29,9 @@ pipeline {
 
     environment {
         // Define environment variables here
-        DOCKER_IMAGE = "docker-repo/ui-app:${env.BUILD_NUMBER}"
-        SONAR_PROJECT_KEY = "sonar-project-key"
-        SONAR_AUTH_TOKEN = 'sonar-cluster-token'
+        DOCKER_IMAGE = "https://github.com/Manideep-thota/Dockerfile/blob/main/Dockerfile"
+        IMAGE_NAME = 'Dockerfile'
+        IMAGE_TAG = 'latest'
         GIT_REPO = "git-repo-url"
         GIT_CREDENTIALS_ID = "git-credentials-id"
     }

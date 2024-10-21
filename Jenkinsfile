@@ -1,41 +1,92 @@
-pipeline {
+def branch = 'develop'
+def credentialsIdGitHub = 'github-ssh-key'
+def gitProjectName = 'smart-dose-ui'
+def cloneUrl = "git@github.com:thermofisher/${gitProjectName}.git"
 
-    agent any
+pipeline {
+    agent {
+        kubernetes {
+            cloud 'openshift'
+            defaultContainer 'npm-container'
+            yaml '''
+            apiVersion: v1
+            kind: Pod
+            spec:
+              containers:
+              - name: npm-container
+                image: node:16
+                command: ["cat"]
+                tty: true
+              - name: kaniko
+                image: gcr.io/kaniko-project/executor:latest
+                command: ["cat"]
+                tty: true
+            '''
+        }
+    }
+    
+
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        // Define environment variables here
+        DOCKER_IMAGE = "docker-repo/ui-app:${env.BUILD_NUMBER}"
+        SONAR_PROJECT_KEY = "sonar-project-key"
+        SONAR_AUTH_TOKEN = 'sonar-cluster-token'
+        GIT_REPO = "git-repo-url"
+        GIT_CREDENTIALS_ID = "git-credentials-id"
     }
 
     stages {
-        
-        stage('Git Clone') {
+        //1. Init
+        stage('init') {
             steps {
-                git branch: 'main', url: 'https://github.com/Manideep-thota/Dockerfile'
+                script {
+                    context = [:]
+                    context.put("workDirEnv", WORKSPACE)
+                    context.put("workDir", WORKSPACE)
+                    println(context)
+                }
+            }
+        }
+        // 2. Checkout source code from Git
+        stage('checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: "${branch}"]],
+                          userRemoteConfigs: [[credentialsId: "${credentialsIdGitHub}", url: "${cloneUrl}"]]])
             }
         }
 
-        stage('Docker Build') {
+   
+        // 8. Build Docker image for the application
+         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t manideep9946/nodeapp_test:latest .'
-            }
-        }
-
-        stage('DOCKER HUB') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
-
-        stage('Push') {
-            steps {
-                sh 'docker push manideep9946/nodeapp_test:latest'
+                container('kaniko') {
+                    sh '''
+                    /kaniko/executor --dockerfile Dockerfile \
+                    --context ${WORKSPACE}
+                    '''
+                }
             }
         }
     }
 
     post {
         always {
-            sh 'docker logout'
+            script {
+                echo 'Cleaning up workspace...'
+                deleteDir()
+            }
+        }
+        success {
+            script {
+                echo 'Pipeline completed successfully!'
+            }
+        }
+        failure {
+            script {
+                echo 'Pipeline failed.'
+            }
         }
     }
+
 }

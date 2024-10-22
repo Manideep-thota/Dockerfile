@@ -16,20 +16,43 @@ spec:
         }
     }
 
+    environment {
+        DOCKER_REGISTRY = 'docker.io'
+        IMAGE_NAME = 'manideep9946' 
+        TAG = 'latest' 
+    }
+
     stages {
-        stage('Build with Kaniko') {
+        stage('Build and Push Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_TOKEN')]) {
                     container(name: 'kaniko', shell: '/busybox/sh') {
                         sh '''#!/busybox/sh
-                           
-                            echo "FROM jenkins/inbound-agent:latest" > Dockerfile
                             
-                           
-                            echo "{\"auths\":{\"docker.io\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_PASSWORD\"}}}" > /kaniko/.docker/config.json
+                            cat << 'EOF' > Dockerfile
+                            FROM jenkins/inbound-agent:latest
+
+                            
+                            RUN npm install -g npm
 
                            
-                            /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination docker.io/${DOCKER_USERNAME}/hello-kaniko:latest --skip-tls-verify
+                            WORKDIR /app
+
+                           
+                            COPY . .
+
+                            
+                            EXPOSE 3000
+
+                           
+                            CMD ["npm", "start"]
+                            EOF
+                            
+                            
+                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_TOKEN\"}}}" > /kaniko/.docker/config.json
+
+                            
+                            /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination ${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${IMAGE_NAME}:${TAG} --skip-tls-verify
                         '''
                     }
                 }

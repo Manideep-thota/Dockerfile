@@ -70,4 +70,17 @@ pipeline {
                         --skip-tls-verify
                         '''
                     }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Docker Image built and pushed successfully!'
+        }
+        failure {
+            echo 'Failed to build and push Docker image.'
+        }
+    }
+}
                

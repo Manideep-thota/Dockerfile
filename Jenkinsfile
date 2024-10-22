@@ -9,40 +9,65 @@ pipeline {
               - name: kaniko
                 image: gcr.io/kaniko-project/executor:latest
                 command:
-                - sleep
-                args:
-                - "100" 
+                - cat
                 tty: true
+                volumeMounts:
+                - name: docker-config
+                  mountPath: /kaniko/.docker
+              volumes:
+              - name: docker-config
+                secret:
+                  secretName: dockerhub-secret
             """
         }
     }
 
     environment {
-        DOCKER_REGISTRY = 'docker.io'
-        IMAGE_NAME = 'manideep9946/test_kaniko'  // will add image name later
+        DOCKER_REGISTRY = 'docker.io'   
+        IMAGE_NAME = 'manideep9946/test_kaniko'  
         TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"  
     }
-
+   
+        DOCKER_USERNAME = 'manideep9946'
+        DOCKER_PASSWORD = 'Manitha@9946'
     stages {
-        stage('Build & Push image') {
+        stage('Prepare Dockerfile') {
             steps {
-                
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'manideep9946', passwordVariable: 'Manitha@9946')]) {
-                    container('kaniko') {
-                        script {
-                            sh '''
-                            
-                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$manideep9946\",\"password\":\"$Manitha@9946\"}}}" > /kaniko/.docker/config.json
-                            
-                            
-                            /kaniko/executor --context ./docker --dockerfile docker/Dockerfile \
-                            --destination=${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} \
-                            --skip-tls-verify 
-                            ''' // feel free to change tls
-                        }
-                    }
+                script {
+                    
+                    writeFile file: 'Dockerfile', text: '''
+                    FROM node:14-alpine
+
+                   
+                    RUN npm install -g npm
+
+                   
+                    WORKDIR /app
+
+                   
+                    COPY . .
+
+                    
+                    EXPOSE 3000
+
+                   
+                    CMD ["npm", "start"]
+                    '''
                 }
             }
         }
-    }
-}
+
+        stage('Build and Push Docker Image') {
+            steps {
+                container('kaniko') {
+                    script {
+                        sh '''
+                        
+                        echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_PASSWORD\"}}}" > /kaniko/.docker/config.json
+                        
+                        /kaniko/executor --context ./ --dockerfile Dockerfile \
+                        --destination=${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} \
+                        --skip-tls-verify
+                        '''
+                    }
+               

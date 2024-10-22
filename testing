@@ -1,0 +1,47 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml """
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    imagePullPolicy: Always
+    command:
+    - sleep
+    args:
+    - 9999999
+"""
+        }
+    }
+
+    stages {
+        stage('Build with Kaniko') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    container(name: 'kaniko', shell: '/busybox/sh') {
+                        sh '''#!/busybox/sh
+                           
+                            echo "FROM jenkins/inbound-agent:latest" > Dockerfile
+                            
+                           
+                            echo "{\"auths\":{\"docker.io\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_PASSWORD\"}}}" > /kaniko/.docker/config.json
+
+                           
+                            /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination docker.io/${DOCKER_USERNAME}/hello-kaniko:latest --skip-tls-verify
+                        '''
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Docker Image built and pushed successfully!'
+        }
+        failure {
+            echo 'Failed to build and push Docker image.'
+        }
+    }
+}

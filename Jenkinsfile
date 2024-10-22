@@ -6,87 +6,113 @@ def cloneUrl = "git@github.com:thermofisher/${gitProjectName}.git"
 pipeline {
     agent {
         kubernetes {
-            cloud 'openshift'
-            defaultContainer 'npm-container'
-            yaml '''
-            apiVersion: v1
-            kind: Pod
-            spec:
-              containers:
-              - name: npm-container
-                image: node:16
-                command: ["cat"]
-                tty: true
-              - name: kaniko
-                image: gcr.io/kaniko-project/executor:latest
-                command: ["cat"]
-                tty: true
-            '''
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: docker-builder
+spec:
+  containers:
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - name: docker-socket
+      mountPath: /var/run/docker.sock
+  restartPolicy: Never
+  volumes:
+  - name: docker-socket
+    hostPath:
+      path: /var/run/docker.sock
+"""
         }
     }
-    
-
 
     environment {
-        // Define environment variables here
-        DOCKER_IMAGE = "https://github.com/Manideep-thota/Dockerfile/blob/main/Dockerfile"
-        IMAGE_NAME = 'Dockerfile'
-        IMAGE_TAG = 'latest'
-        GIT_REPO = "git-repo-url"
-        GIT_CREDENTIALS_ID = "git-credentials-id"
+        REGISTRY = 'docker.io'                   // Docker Hub URL (registry)
+        IMAGE_NAME = 'manideep9946/testrepo'     // Docker Hub username/repository name
+        IMAGE_TAG = 'latest'                     // Image tag (can be a branch name, version number, etc.)
     }
 
     stages {
-        //1. Init
-        stage('init') {
+        stage('Install Git') {
             steps {
-                script {
-                    context = [:]
-                    context.put("workDirEnv", Manideep)
-                    context.put("workDir", Manideep)
-                    println(context)
+                container('docker') {
+                    sh '''
+                    apk add --no-cache git
+                    systemctl start docker.service
+    		    systemctl status docker.service
+                    '''
                 }
             }
         }
-        // 2. Checkout source code from Git
-        stage('checkout') {
+
+        stage('Checkout Code') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: "${branch}"]],
-                          userRemoteConfigs: [[credentialsId: "${credentialsIdGitHub}", url: "${cloneUrl}"]]])
+                container('docker') { // Make sure to run this in the docker container
+                    sh 'git clone https://github.com/Manideep-thota/Dockerfile.git'
+                }
             }
         }
 
-   
-        // 8. Build Docker image for the application
-         stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
-                container('kaniko') {
-                    sh '''
-                    /kaniko/executor --dockerfile Dockerfile \
-                    --context ${WORKSPACE}
-                    '''
+                container('docker') {
+                    script {
+                        // Build the Docker image using the Dockerfile
+                        sh '''
+                        docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Login to Docker Hub') {
+            steps {
+                container('docker') {
+                    script {
+                        // Login to Docker Hub using credentials stored in Jenkins
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                container('docker') {
+                    script {
+                        // Push the built Docker image to Docker Hub
+                        sh '''
+                        docker push $IMAGE_NAME:$IMAGE_TAG
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Logout from Docker Hub') {
+            steps {
+                container('docker') {
+                    script {
+                        // Logout from Docker Hub
+                        sh 'docker logout'
+                    }
                 }
             }
         }
     }
 
     post {
-        always {
-            script {
-                echo 'Cleaning up workspace...'
-                deleteDir()
-            }
-        }
-        success {
-            script {
-                echo 'Pipeline completed successfully!'
-            }
-        }
-        failure {
-            script {
-                echo 'Pipeline failed.'
-            }
+        always { `
+            // Clean up workspace
+            cleanWs()
         }
     }
-
 }

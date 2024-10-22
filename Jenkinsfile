@@ -11,13 +11,6 @@ pipeline {
                 command:
                 - cat
                 tty: true
-                volumeMounts:
-                - name: docker-config
-                  mountPath: /kaniko/.docker
-              volumes:
-              - name: docker-config
-                secret:
-                  secretName: dockerhub-secret
             """
         }
     }

@@ -1,52 +1,62 @@
 pipeline {
     agent {
-        docker {
-            image 'docker:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        kubernetes {
+            yaml """
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    imagePullPolicy: Always
+    command:
+    - sleep
+    args:
+    - 9999999
+"""
         }
     }
 
     environment {
         DOCKER_REGISTRY = 'docker.io'
-        IMAGE_NAME = 'manideep9946/testrepo'
-        TAG = 'latest'
+        IMAGE_NAME = 'manideep9946/testrepo' // Ensure this matches your Docker Hub repo name
+        TAG = 'latest' 
     }
 
     stages {
         stage('Build and Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_TOKEN')]) {
-                    script {
-                       
-                        sh '''
-                        echo "Building Docker image..."
-                        echo "FROM jenkins/inbound-agent:latest" > Dockerfile
-                        echo "RUN npm install -g npm" >> Dockerfile
-                        echo "WORKDIR /app" >> Dockerfile
-                        echo "COPY . ." >> Dockerfile
-                        echo "EXPOSE 3000" >> Dockerfile
-                        echo 'CMD ["npm", "start"]' >> Dockerfile
+                    container(name: 'kaniko', shell: '/busybox/sh') {
+                        sh '''#!/busybox/sh
+                            # Create the Dockerfile dynamically
+                            cat << 'EOF' > Dockerfile
+                            FROM jenkins/inbound-agent:latest
 
-                        docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} .
-                        '''
+                            RUN npm install -g npm
+                            WORKDIR /app
+                            COPY . .
+                            EXPOSE 3000
+                            CMD ["npm", "start"]
+                            EOF
 
-                       
-                        sh '''
-                        echo "Logging in to Docker Hub..."
-                        echo $DOCKER_TOKEN | docker login -u $DOCKER_USERNAME --password-stdin
-                        '''
+                            # Create Docker config for authentication
+                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_TOKEN\"}}}" > /kaniko/.docker/config.json
 
-                      
-                        sh '''
-                        echo "Pushing image to Docker Hub..."
-                        docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG}
+                            # Print debug info
+                            echo "Building the image..."
+                            echo "Pushing image to: ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG}"
+
+                            # Run Kaniko executor
+                            /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} --skip-tls-verify
+
+                            # Check the status of the Kaniko build
+                            echo "Kaniko build finished with status: $? "
                         '''
                     }
                 }
             }
         }
     }
-
     post {
         success {
             echo 'Docker Image built and pushed successfully!'

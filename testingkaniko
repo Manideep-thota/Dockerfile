@@ -1,0 +1,70 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml """
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    imagePullPolicy: Always
+    command:
+    - sleep
+    args:
+    - 9999999
+"""
+        }
+    }
+
+    environment {
+        DOCKER_REGISTRY = 'docker.io'
+        IMAGE_NAME = 'manideep9946/testrepo ' // 
+        TAG = 'latest' 
+    }
+
+    stages {
+        stage('Build and Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_TOKEN')]) {
+                    container(name: 'kaniko', shell: '/busybox/sh') {
+                        sh '''#!/busybox/sh
+                            
+                            cat << 'EOF' > Dockerfile
+                            FROM jenkins/inbound-agent:latest
+
+                        
+                            RUN npm install -g npm
+
+                            
+                            WORKDIR /app
+
+                           
+                            COPY . .
+
+                            # Expose the application port (adjust as necessary)
+                            EXPOSE 3000
+
+                           
+                            CMD ["npm", "start"]
+                            EOF
+                            
+                            
+                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_TOKEN\"}}}" > /kaniko/.docker/config.json
+
+                           
+                            /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} --skip-tls-verify
+                        '''
+                    }
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Docker Image built and pushed successfully!'
+        }
+        failure {
+            echo 'Failed to build and push Docker image.'
+        }
+    }
+}

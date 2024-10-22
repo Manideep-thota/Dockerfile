@@ -1,0 +1,40 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml """
+kind: Pod
+spec:
+  containers:
+  - name: busybox
+    image: busybox
+    command:
+    - sleep
+    args:
+    - 9999999
+"""
+        }
+    }
+    environment {
+        DOCKER_CREDS = credentials('dockerhub')  
+    }
+    stages {
+        stage('Test Kubernetes and Docker Credentials') {
+            steps {
+                container('busybox') {
+                    sh '''
+                    echo "Starting test: Kubernetes pod creation and Docker Hub credentials"
+                    echo "Checking Kubernetes pod creation..."
+                    if [ -z "$DOCKER_CREDS_USR" ] || [ -z "$DOCKER_CREDS_PSW" ]; then
+                        echo "Docker Hub credentials not found!"
+                        exit 1
+                    else
+                        echo "Docker Hub Username: $DOCKER_CREDS_USR"
+                        echo "Docker Hub Token (password): $DOCKER_CREDS_PSW"
+                        echo "Credentials retrieved successfully!"
+                    fi
+                    '''
+                }
+            }
+        }
+    }
+}

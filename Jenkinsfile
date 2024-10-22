@@ -16,28 +16,26 @@ pipeline {
     }
 
     environment {
-        DOCKER_REGISTRY = 'docker.io'   
-        IMAGE_NAME = 'manideep9946/test_kaniko'  
+        DOCKER_REGISTRY = 'docker.io' 
+        IMAGE_NAME = 'manideep9946/testingkaniko'  
         TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"  
     }
-   
-        DOCKER_USERNAME = 'manideep9946'
-        DOCKER_PASSWORD = 'Manitha@9946'
+
     stages {
-        stage('Prepare Dockerfile') {
+        stage('Create Dockerfile') {
             steps {
                 script {
                     
                     writeFile file: 'Dockerfile', text: '''
                     FROM node:14-alpine
 
-                   
+                    
                     RUN npm install -g npm
 
-                   
+                    
                     WORKDIR /app
 
-                   
+                    
                     COPY . .
 
                     
@@ -54,19 +52,24 @@ pipeline {
             steps {
                 container('kaniko') {
                     script {
-                        sh '''
                         
-                        echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_PASSWORD\"}}}" > /kaniko/.docker/config.json
-                        
-                        /kaniko/executor --context ./ --dockerfile Dockerfile \
-                        --destination=${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} \
-                        --skip-tls-verify
-                        '''
+                        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            sh '''
+                            # Create Docker config for Kaniko to authenticate with Docker Hub
+                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_PASSWORD\"}}}" > /kaniko/.docker/config.json
+
+                            # Build and push Docker image using Kaniko
+                            /kaniko/executor --context ./ --dockerfile Dockerfile \
+                            --destination=${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} \
+                            --skip-tls-verify
+                            '''
+                        }
                     }
                 }
             }
         }
     }
+
     post {
         success {
             echo 'Docker Image built and pushed successfully!'
@@ -76,4 +79,3 @@ pipeline {
         }
     }
 }
-               

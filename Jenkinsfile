@@ -18,7 +18,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_REGISTRY = '?'
+        DOCKER_REGISTRY = 'docker.io'
         IMAGE_NAME = 'manideep9946/test_kaniko'  // will add image name later
         TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"  
     }
@@ -27,12 +27,12 @@ pipeline {
         stage('Build & Push image') {
             steps {
                 
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_UN', passwordVariable: 'DOCKER_PWD')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'manideep9946', passwordVariable: 'Manitha@9946')]) {
                     container('kaniko') {
                         script {
                             sh '''
                             
-                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_UN\",\"password\":\"$DOCKER_PWD\"}}}" > /kaniko/.docker/config.json
+                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$manideep9946\",\"password\":\"$Manitha@9946\"}}}" > /kaniko/.docker/config.json
                             
                             
                             /kaniko/executor --context ./docker --dockerfile docker/Dockerfile \

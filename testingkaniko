@@ -51,6 +51,10 @@ spec:
                             
                             echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_TOKEN\"}}}" > /kaniko/.docker/config.json
 
+                            # Debug statement to show the destination
+                            echo "Pushing image to: ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG}"
+
+
                            
                             /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} --skip-tls-verify
                         '''

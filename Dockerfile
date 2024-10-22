@@ -1,14 +1,18 @@
-# Sample Dockerfile for a simple Python app
-FROM bitnami/kaniko:latest
+#sample docker file to check kaniko build
 
-# Set the working directory in the container
-#WORKDIR /app
+FROM node:14-alpine
 
-# Copy current directory contents into the container at /app
-#COPY . /app
+# Install test npm
+RUN npm install -g npm
 
-# Install any dependencies
-#RUN pip install --no-cache-dir -r requirements.txt || echo "No requirements.txt file, skipping"
+# can be changed for now npm keeping it as /app
+WORKDIR /app
 
-# Run a simple Python script
-#CMD ["python", "-c", "print('Hello from Docker!')"]
+# Copy the code
+COPY . .
+
+# just exposing port - just test
+EXPOSE 3000
+
+# default npm start
+CMD ["npm", "start"]

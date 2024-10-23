@@ -1,28 +1,37 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yaml """
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    command:
+    - sleep
+    args:
+    - 9999999
+"""
+        }
+    }
     environment {
         DOCKER_CREDS = credentials('dockerhub')
     }
     stages {
         stage('Build and Push Docker Image') {
             steps {
-                script {
-                    // Create a simple Dockerfile in the workspace
-                    writeFile file: 'Dockerfile', text: '''
-                    FROM alpine
-                    RUN echo "Hello from Kaniko!" > /hello.txt
-                    '''
-
-                    // Create a Docker config.json using Jenkins credentials
+                container('kaniko') {
                     sh '''
-                    mkdir -p $HOME/.docker
-                    echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n $DOCKER_CREDS_USR:$DOCKER_CREDS_PSW | base64)\"}}}" > $HOME/.docker/config.json
-                    '''
+                    echo "FROM alpine" > /workspace/Dockerfile
+                    echo "RUN echo 'Hello from Kaniko!' > /hello.txt" >> /workspace/Dockerfile
 
-                    // Build and push the Docker image
-                    sh '''
-                    docker build -t mydockerhubuser/testrepo:latest .
-                    docker push mydockerhubuser/testrepo:latest
+                    mkdir -p /kaniko/.docker
+                    echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n $DOCKER_CREDS_USR:$DOCKER_CREDS_PSW | base64)\"}}}" > /kaniko/.docker/config.json
+
+                    /kaniko/executor \
+                      --context=/workspace \
+                      --dockerfile=/workspace/Dockerfile \
+                      --destination=manideep9946/testrepo:latest
                     '''
                 }
             }

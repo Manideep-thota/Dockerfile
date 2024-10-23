@@ -1,38 +1,28 @@
 pipeline {
-    agent {
-        kubernetes {
-            yaml """
-kind: Pod
-spec:
-  containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
-    imagePullPolicy: IfNotPresent
-    command:
-    - sleep
-    args:
-    - 9999999
-"""
-        }
-    }
+    agent any
     environment {
         DOCKER_CREDS = credentials('dockerhub')
     }
     stages {
-        stage('Build Docker Image') {
+        stage('Build and Push Docker Image') {
             steps {
-                container('kaniko') {
+                script {
+                    // Create a simple Dockerfile in the workspace
+                    writeFile file: 'Dockerfile', text: '''
+                    FROM alpine
+                    RUN echo "Hello from Kaniko!" > /hello.txt
+                    '''
+
+                    // Create a Docker config.json using Jenkins credentials
                     sh '''
-                    echo "FROM alpine" > /workspace/Dockerfile
-                    echo "RUN echo 'Hello from Kaniko!' > /hello.txt" >> /workspace/Dockerfile
+                    mkdir -p $HOME/.docker
+                    echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n $DOCKER_CREDS_USR:$DOCKER_CREDS_PSW | base64)\"}}}" > $HOME/.docker/config.json
+                    '''
 
-                    mkdir -p /kaniko/.docker
-                    echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n $DOCKER_CREDS_USR:$DOCKER_CREDS_PSW | base64)\"}}}" > /kaniko/.docker/config.json
-
-                    /kaniko/executor \
-                      --context=/workspace \
-                      --dockerfile=/workspace/Dockerfile \
-                      --destination=mydockerhubuser/testrepo:latest
+                    // Build and push the Docker image
+                    sh '''
+                    docker build -t mydockerhubuser/testrepo:latest .
+                    docker push mydockerhubuser/testrepo:latest
                     '''
                 }
             }

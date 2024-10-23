@@ -5,9 +5,15 @@ pipeline {
 kind: Pod
 spec:
   containers:
+  - name: busybox
+    image: busybox
+    command:
+    - sleep
+    args:
+    - 9999999
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     command:
     - sleep
     args:
@@ -15,54 +21,41 @@ spec:
 """
         }
     }
-
     environment {
-        DOCKER_REGISTRY = 'docker.io'
-        IMAGE_NAME = 'manideep9946/testrepo' // Ensure this matches your Docker Hub repo name
-        TAG = 'latest' 
+        DOCKER_CREDS = credentials('dockerhub')
+        IMAGE_NAME = 'testrepo'
+        BUILD_TAG = 'latest'
     }
-
     stages {
-        stage('Build and Push Docker Image') {
+        stage('Create Dockerfile') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_TOKEN')]) {
-                    container(name: 'kaniko', shell: '/busybox/sh') {
-                        sh '''#!/busybox/sh
-                            # Create the Dockerfile dynamically
-                            cat << 'EOF' > Dockerfile
-                            FROM jenkins/inbound-agent:latest
-
-                            RUN npm install -g npm
-                            WORKDIR /app
-                            COPY . .
-                            EXPOSE 3000
-                            CMD ["npm", "start"]
-                            EOF
-
-                            # Create Docker config for authentication
-                            echo "{\"auths\":{\"$DOCKER_REGISTRY\":{\"username\":\"$DOCKER_USERNAME\",\"password\":\"$DOCKER_TOKEN\"}}}" > /kaniko/.docker/config.json
-
-                            # Print debug info
-                            echo "Building the image..."
-                            echo "Pushing image to: ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG}"
-
-                            # Run Kaniko executor
-                            /kaniko/executor --context `pwd` --dockerfile Dockerfile --destination ${DOCKER_REGISTRY}/${IMAGE_NAME}:${TAG} --skip-tls-verify
-
-                            # Check the status of the Kaniko build
-                            echo "Kaniko build finished with status: $? "
+                container('busybox') {
+                    script {
+                        sh '''
+                        echo "FROM alpine" > Dockerfile
+                        echo "RUN echo 'Hello Kaniko!' > /hello.txt" >> Dockerfile
                         '''
                     }
                 }
             }
         }
-    }
-    post {
-        success {
-            echo 'Docker Image built and pushed successfully!'
-        }
-        failure {
-            echo 'Failed to build and push Docker image.'
+        stage('Build/Push Image using Kaniko') {
+            steps {
+                container(name: 'kaniko', shell: '/busybox/sh') {
+                    script {
+                        echo 'Building Docker image using Kaniko...'
+                        sh """#!/busybox/sh
+                            mkdir -p /kaniko/.docker
+                            echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n ${DOCKER_CREDS_USR}:${DOCKER_CREDS_PSW} | base64)\"}}}" > /kaniko/.docker/config.json
+                            /kaniko/executor \
+                            --context=`pwd` \
+                            --dockerfile=`pwd`/Dockerfile \
+                            --destination=mani9946/testrepo:${BUILD_TAG} \
+                            --destination=mani9946/testrepo:latest
+                        """
+                    }
+                }
+            }
         }
     }
 }

@@ -1,1 +1,11 @@
-just test
+stage('Build/Push Image using Kaniko') {
+            steps {
+                container(name: 'kaniko', shell: '/busybox/sh') {
+                    echo 'Building Docker image using Kaniko...'
+                    sh """#!/busybox/sh
+                        /kaniko/executor \
+                        --context=`pwd` \
+                        --dockerfile=`pwd`/Dockerfile \
+                        --destination=${ECR_REGISTRY}/${IMAGE_NAME}:${BUILD_TAG} \
+                        --destination=${ECR_REGISTRY}/${IMAGE_NAME}:latest
+                    """

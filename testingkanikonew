@@ -43,26 +43,36 @@ spec:
         stage('Build Docker Image') {
             steps {
                 container('kaniko') {
-                    sh '''
-                    /kaniko/executor \
-                      --context=/workspace \
-                      --dockerfile=/workspace/Dockerfile \
-                      --destination=manideep9946/testrepo:latest
-                    '''
+                    script {
+                        def result = sh(script: '''
+                        /kaniko/executor \
+                          --context=/workspace \
+                          --dockerfile=/workspace/Dockerfile \
+                          --destination=manideep9946/testrepo:latest
+                        ''', returnStatus: true)
+                        echo "Build status: ${result}"
+                        if (result != 0) {
+                            error "Build failed with status ${result}"
+                        }
+                    }
                 }
             }
         }
         stage('Push Docker Image') {
             steps {
                 container('kaniko') {
-                    sh '''
-                    echo "Docker image built successfully. Now pushing..."
-                    /kaniko/executor \
-                      --context=/workspace \
-                      --dockerfile=/workspace/Dockerfile \
-                      --destination=manideep9946/testrepo:latest \
-                      --push=true
-                    '''
+                    script {
+                        def result = sh(script: '''
+                        /kaniko/executor \
+                          --context=/workspace \
+                          --dockerfile=/workspace/Dockerfile \
+                          --destination=manideep9946/testrepo:latest
+                        ''', returnStatus: true)
+                        echo "Push status: ${result}"
+                        if (result != 0) {
+                            error "Push failed with status ${result}"
+                        }
+                    }
                 }
             }
         }

@@ -34,7 +34,7 @@ spec:
                     /kaniko/executor \
                       --context=/workspace/test_pipeline \
                       --dockerfile=/workspace/test_pipeline/Dockerfile \
-                      --destination=mydockerhubuser/myapp:latest
+                      --destination=mydockerhubuser/testrepo:latest
                     '''
                 }
             }

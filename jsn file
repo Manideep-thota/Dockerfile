@@ -1,0 +1,64 @@
+{
+  "name": "azure.devops.extensions",
+  "author": {
+    "name": "Thermo Fisher Scientific, Inc."
+  },
+  "contributors": [
+    {
+      "name": "Chris Meuzelaar"
+    }
+  ],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://dev.azure.com/tfsmadison/Tools/_git/Azure%20DevOps%20Extensions"
+  },
+  "scripts": {
+    "test": "npm run build && mocha \"**/test/testSuite.js\"",
+    "cover": "nyc mocha \"**/test/testSuite.js\" --reporter mocha-junit-reporter --reporter-option includePending=true --reporter-option useFullSuiteTitle=true --reporter-option suiteTitleSeparatedBy=. --reporter-option outputs=true",
+    "initdev": "npm run initdev:npm",
+    "initdev:npm": "npm run initdev:npm:base & npm run initdev:npm:tasks",
+    "initdev:npm:base": "npm install --no-progress --no-update-notifier",
+    "initdev:npm:tasks": "glob-exec --parallel --foreach \"*/tsconfig.json\" -- \"cd {{file.dir}} && npm install --no-update-notifier --no-progress\"",
+    "build": "glob-exec \"*/tsconfig.json\" -- \"tsc -b {{files.join(' ')}}\"",
+    "build:clean": "npm run clean && npm run initdev && npm run build",
+    "build:package": "npm run clean && npm run initdev && glob-exec \"*/tsconfig.package.json\" -- \"tsc -b {{files.join(' ')}}\" && npm run prune",
+    "clean": "git clean -fdX",
+    "prune": "npm run prune:tasks & npm run prune:base",
+    "prune:base": "npm prune --omit=dev",
+    "prune:tasks": "glob-exec --parallel --foreach \"*/tsconfig.json\" -- \"cd {{file.dir}} && npm prune --omit=dev\""
+  },
+  "nyc": {
+    "exclude": [
+      "**/test/**",
+      "common/**",
+      "generatePartNumber/azureDevOps/**",
+      "updateVersionInfo/enums*",
+      "updateVersionInfo/mockable-fs*"
+    ],
+    "reporter": [
+      "cobertura",
+      "text"
+    ],
+    "all": true
+  },
+  "mocha": {
+    "recursive": true,
+    "reporter": "list",
+    "require": "source-map-support/register",
+    "timeout": 5000,
+    "ui": "bdd"
+  },
+  "devDependencies": {
+    "@types/node": "10.x",
+    "glob-exec": "*",
+    "mocha": "10.x",
+    "mocha-explorer-launcher-scripts": "*",
+    "mocha-junit-reporter": "*",
+    "nyc": "*",
+    "source-map-support": "*",
+    "tfx-cli": "0.x",
+    "ts-node": "10.x",
+    "typescript": "^4.x"
+  }
+}

@@ -1,0 +1,321 @@
+2024-10-24T14:27:23.9000432Z ##[section]Starting: Run unit tests
+2024-10-24T14:27:24.3167188Z ##[section]Starting: Initialize job
+2024-10-24T14:27:24.3172621Z Agent name: 'EC2AMAZ-A3ILD7P'
+2024-10-24T14:27:24.3173614Z Agent machine name: 'EC2AMAZ-A3ILD7P'
+2024-10-24T14:27:24.3174073Z Current agent version: '3.240.1'
+2024-10-24T14:27:24.3310613Z Agent running as: 'EC2AMAZ-A3ILD7P$'
+2024-10-24T14:27:24.3387873Z Prepare build directory.
+2024-10-24T14:27:24.4055157Z Set build variables.
+2024-10-24T14:27:24.4105456Z Download all required tasks.
+2024-10-24T14:27:24.4517251Z ##[warning]Task '[To be deprecated] Publish code coverage' version 1 (PublishCodeCoverageResults@1) is deprecated.
+2024-10-24T14:27:24.4527735Z ##[warning]The PublishCodeCoverageResults@1 is deprecated. Users are recommended to switch to task version 2. For more details, see https://devblogs.microsoft.com/devops/new-pccr-task
+2024-10-24T14:27:24.6058501Z Checking job knob settings.
+2024-10-24T14:27:24.6072880Z    Knob: DockerActionRetries = true Source: $(VSTSAGENT_DOCKER_ACTION_RETRIES) 
+2024-10-24T14:27:24.6075234Z    Knob: UseGitLongPaths = true Source: $(USE_GIT_LONG_PATHS) 
+2024-10-24T14:27:24.6076139Z    Knob: UseLatestGitVersion = true Source: $(USE_LATEST_GIT_VERSION) 
+2024-10-24T14:27:24.6079072Z    Knob: EnableIssueSourceValidation = true Source: $(ENABLE_ISSUE_SOURCE_VALIDATION) 
+2024-10-24T14:27:24.6080397Z    Knob: AgentEnablePipelineArtifactLargeChunkSize = true Source: $(AGENT_ENABLE_PIPELINEARTIFACT_LARGE_CHUNK_SIZE) 
+2024-10-24T14:27:24.6083731Z    Knob: ContinueAfterCancelProcessTreeKillAttempt = true Source: $(VSTSAGENT_CONTINUE_AFTER_CANCEL_PROCESSTREEKILL_ATTEMPT) 
+2024-10-24T14:27:24.6084974Z    Knob: ProcessHandlerSecureArguments = false Source: $(AZP_75787_ENABLE_NEW_LOGIC) 
+2024-10-24T14:27:24.6085850Z    Knob: ProcessHandlerSecureArguments = false Source: $(AZP_75787_ENABLE_NEW_LOGIC_LOG) 
+2024-10-24T14:27:24.6086680Z    Knob: ProcessHandlerTelemetry = true Source: $(AZP_75787_ENABLE_COLLECT) 
+2024-10-24T14:27:24.6087534Z    Knob: ProcessHandlerEnableNewLogic = true Source: $(AZP_75787_ENABLE_NEW_PH_LOGIC) 
+2024-10-24T14:27:24.6088810Z    Knob: EnableResourceUtilizationWarnings = true Source: $(AZP_ENABLE_RESOURCE_UTILIZATION_WARNINGS) 
+2024-10-24T14:27:24.6090055Z    Knob: IgnoreVSTSTaskLib = true Source: $(AZP_AGENT_IGNORE_VSTSTASKLIB) 
+2024-10-24T14:27:24.6090847Z    Knob: FailJobWhenAgentDies = true Source: $(FAIL_JOB_WHEN_AGENT_DIES) 
+2024-10-24T14:27:24.6091907Z    Knob: CheckForTaskDeprecation = true Source: $(AZP_AGENT_CHECK_FOR_TASK_DEPRECATION) 
+2024-10-24T14:27:24.6092721Z    Knob: MountWorkspace = true Source: $(AZP_AGENT_MOUNT_WORKSPACE) 
+2024-10-24T14:27:24.6093733Z    Knob: LogTaskNameInUserAgent = true Source: $(AZP_AGENT_LOG_TASKNAME_IN_USERAGENT) 
+2024-10-24T14:27:24.6094646Z    Knob: UseFetchFilterInCheckoutTask = true Source: $(AGENT_USE_FETCH_FILTER_IN_CHECKOUT_TASK) 
+2024-10-24T14:27:24.6095624Z    Knob: UseInteropToFindParentProcess = true Source: $(AZP_AGENT_USE_INTEROP_TO_FIND_PARENT_PROCESS) 
+2024-10-24T14:27:24.6096637Z    Knob: Rosetta2Warning = true Source: $(ROSETTA2_WARNING) 
+2024-10-24T14:27:24.6097006Z Finished checking job knob settings.
+2024-10-24T14:27:24.6142553Z ##[section]Async Command Start: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.6143259Z ##[section]Async Command End: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.6728962Z Start tracking orphan processes.
+2024-10-24T14:27:24.6829750Z ##[section]Finishing: Initialize job
+2024-10-24T14:27:24.7098196Z ##[section]Async Command Start: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.7098874Z ##[section]Async Command End: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.7100843Z ##[section]Async Command Start: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.7101467Z ##[section]Async Command End: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.7103443Z ##[section]Async Command Start: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.7104079Z ##[section]Async Command End: WindowsPreinstalledGitTelemetry
+2024-10-24T14:27:24.7416474Z ##[section]Starting: Check build quality
+2024-10-24T14:27:24.7776962Z ==============================================================================
+2024-10-24T14:27:24.7777938Z Task         : Build Quality Checks
+2024-10-24T14:27:24.7778413Z Description  : Breaks a build based on quality metrics like number of warnings or code coverage.
+2024-10-24T14:27:24.7778876Z Version      : 9.2.2
+2024-10-24T14:27:24.7779295Z Author       : Microsoft
+2024-10-24T14:27:24.7779882Z Help         : [[Docs]](https://github.com/MicrosoftPremier/VstsExtensions/blob/master/BuildQualityChecks/en-US/overview.md)
+2024-10-24T14:27:24.7780391Z ==============================================================================
+2024-10-24T14:27:26.0984296Z ##[section]Finishing: Check build quality
+2024-10-24T14:27:26.1055833Z ##[section]Starting: Checkout thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib@main to s
+2024-10-24T14:27:26.1065107Z ==============================================================================
+2024-10-24T14:27:26.1065353Z Task         : Get sources
+2024-10-24T14:27:26.1065495Z Description  : Get sources from a repository. Supports Git, TfsVC, and SVN repositories.
+2024-10-24T14:27:26.1065676Z Version      : 1.0.0
+2024-10-24T14:27:26.1065802Z Author       : Microsoft
+2024-10-24T14:27:26.1065956Z Help         : [More Information](https://go.microsoft.com/fwlink/?LinkId=798199)
+2024-10-24T14:27:26.1066124Z ==============================================================================
+2024-10-24T14:27:27.3656580Z Syncing repository: thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib (GitHub)
+2024-10-24T14:27:27.3668908Z Prepending Path environment variable with directory containing 'git.exe'.
+2024-10-24T14:27:27.3684206Z ##[command]git version
+2024-10-24T14:27:27.6856069Z git version 2.43.0.windows.1
+2024-10-24T14:27:27.6895721Z ##[command]git lfs version
+2024-10-24T14:27:28.1416048Z git-lfs/3.3.0 (GitHub; windows amd64; go 1.19.3; git 77deabdf)
+2024-10-24T14:27:28.1444692Z ##[command]git config --get remote.origin.url
+2024-10-24T14:27:28.3731771Z ##[command]git clean -ffdx
+2024-10-24T14:27:42.0735070Z Removing blueStage/node_modules/
+2024-10-24T14:27:42.0735945Z Removing blueStage/package/
+2024-10-24T14:27:42.0736420Z Removing common/node_modules/
+2024-10-24T14:27:42.0736968Z Removing generatePartNumber/node_modules/
+2024-10-24T14:27:42.0746619Z Removing node_modules/
+2024-10-24T14:27:42.0834051Z ##[command]git reset --hard HEAD
+2024-10-24T14:27:42.3736499Z HEAD is now at 306a196 Update vss-extension.json
+2024-10-24T14:27:42.3879138Z ##[command]git config gc.auto 0
+2024-10-24T14:27:42.6328485Z ##[command]git config core.longpaths true
+2024-10-24T14:27:42.6658691Z ##[command]git config --get-all http.https://github.com/thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib.extraheader
+2024-10-24T14:27:42.9693809Z ##[command]git config --get-all http.extraheader
+2024-10-24T14:27:43.2327129Z ##[command]git config --get-regexp .*extraheader
+2024-10-24T14:27:43.5197475Z ##[command]git config --get-all http.proxy
+2024-10-24T14:27:43.7899855Z ##[command]git config http.version HTTP/1.1
+2024-10-24T14:27:44.1056469Z ##[command]git --config-env=http.extraheader=env_var_http.extraheader fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +795f0916afeadbb0505d6904559b3fb209edb31d:refs/remotes/origin/795f0916afeadbb0505d6904559b3fb209edb31d
+2024-10-24T14:27:44.8223571Z remote: Enumerating objects: 21, done.        
+2024-10-24T14:27:44.8224206Z remote: Counting objects:   4% (1/21)        
+2024-10-24T14:27:44.8228934Z remote: Counting objects:   9% (2/21)        
+2024-10-24T14:27:44.8233952Z remote: Counting objects:  14% (3/21)        
+2024-10-24T14:27:44.8239931Z remote: Counting objects:  19% (4/21)        
+2024-10-24T14:27:44.8242420Z remote: Counting objects:  23% (5/21)        
+2024-10-24T14:27:44.8247287Z remote: Counting objects:  28% (6/21)        
+2024-10-24T14:27:44.8251105Z remote: Counting objects:  33% (7/21)        
+2024-10-24T14:27:44.8252956Z remote: Counting objects:  38% (8/21)        
+2024-10-24T14:27:44.8256219Z remote: Counting objects:  42% (9/21)        
+2024-10-24T14:27:44.8258058Z remote: Counting objects:  47% (10/21)        
+2024-10-24T14:27:44.8259165Z remote: Counting objects:  52% (11/21)        
+2024-10-24T14:27:44.8259643Z remote: Counting objects:  57% (12/21)        
+2024-10-24T14:27:44.8260644Z remote: Counting objects:  61% (13/21)        
+2024-10-24T14:27:44.8261323Z remote: Counting objects:  66% (14/21)        
+2024-10-24T14:27:44.8262072Z remote: Counting objects:  71% (15/21)        
+2024-10-24T14:27:44.8262729Z remote: Counting objects:  76% (16/21)        
+2024-10-24T14:27:44.8267517Z remote: Counting objects:  80% (17/21)        
+2024-10-24T14:27:44.8268045Z remote: Counting objects:  85% (18/21)        
+2024-10-24T14:27:44.8268433Z remote: Counting objects:  90% (19/21)        
+2024-10-24T14:27:44.8268832Z remote: Counting objects:  95% (20/21)        
+2024-10-24T14:27:44.8269240Z remote: Counting objects: 100% (21/21)        
+2024-10-24T14:27:44.8269678Z remote: Counting objects: 100% (21/21), done.        
+2024-10-24T14:27:44.8270581Z remote: Compressing objects:  12% (1/8)        
+2024-10-24T14:27:44.8271274Z remote: Compressing objects:  25% (2/8)        
+2024-10-24T14:27:44.8271963Z remote: Compressing objects:  37% (3/8)        
+2024-10-24T14:27:44.8274285Z remote: Compressing objects:  50% (4/8)        
+2024-10-24T14:27:44.8277247Z remote: Compressing objects:  62% (5/8)        
+2024-10-24T14:27:44.8277719Z remote: Compressing objects:  75% (6/8)        
+2024-10-24T14:27:44.8278115Z remote: Compressing objects:  87% (7/8)        
+2024-10-24T14:27:44.8279570Z remote: Compressing objects: 100% (8/8)        
+2024-10-24T14:27:44.8280070Z remote: Compressing objects: 100% (8/8), done.        
+2024-10-24T14:27:44.8282174Z remote: Total 13 (delta 4), reused 13 (delta 4), pack-reused 0 (from 0)        
+2024-10-24T14:27:45.2201984Z From https://github.com/thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib
+2024-10-24T14:27:45.2203037Z  * [new ref]         795f0916afeadbb0505d6904559b3fb209edb31d -> origin/795f0916afeadbb0505d6904559b3fb209edb31d
+2024-10-24T14:27:45.3816788Z ##[command]git --config-env=http.extraheader=env_var_http.extraheader fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin --depth=1  +795f0916afeadbb0505d6904559b3fb209edb31d
+2024-10-24T14:27:46.0970466Z remote: Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)        
+2024-10-24T14:27:46.2277204Z From https://github.com/thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib
+2024-10-24T14:27:46.2278164Z  * branch            795f0916afeadbb0505d6904559b3fb209edb31d -> FETCH_HEAD
+2024-10-24T14:27:46.3533988Z ##[command]git checkout --progress --force refs/remotes/origin/795f0916afeadbb0505d6904559b3fb209edb31d
+2024-10-24T14:27:46.7932974Z Previous HEAD position was 306a196 Update vss-extension.json
+2024-10-24T14:27:46.7934034Z HEAD is now at 795f091 Merge branch 'main' of https://github.com/thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib
+2024-10-24T14:27:46.8176205Z ##[section]Finishing: Checkout thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib@main to s
+2024-10-24T14:27:46.8260059Z ##[section]Starting: Install Node.js
+2024-10-24T14:27:46.8276292Z ==============================================================================
+2024-10-24T14:27:46.8276496Z Task         : Node.js tool installer
+2024-10-24T14:27:46.8276623Z Description  : Finds or downloads and caches the specified version spec of Node.js and adds it to the PATH
+2024-10-24T14:27:46.8276824Z Version      : 0.245.1
+2024-10-24T14:27:46.8276931Z Author       : Microsoft Corporation
+2024-10-24T14:27:46.8277057Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/tool/node-js
+2024-10-24T14:27:46.8277237Z ==============================================================================
+2024-10-24T14:27:47.5091900Z Found tool in cache: node 18.20.3 x64
+2024-10-24T14:27:47.5104252Z Prepending PATH environment variable with directory: D:\Build\_tool\node\18.20.3\x64
+2024-10-24T14:27:47.5764127Z ##[section]Finishing: Install Node.js
+2024-10-24T14:27:47.5820109Z ##[section]Starting: Install Node dependencies
+2024-10-24T14:27:47.5835773Z ==============================================================================
+2024-10-24T14:27:47.5835964Z Task         : npm
+2024-10-24T14:27:47.5836095Z Description  : Install and publish npm packages, or run an npm command. Supports npmjs.com and authenticated registries like Azure Artifacts.
+2024-10-24T14:27:47.5836328Z Version      : 1.244.3
+2024-10-24T14:27:47.5836443Z Author       : Microsoft Corporation
+2024-10-24T14:27:47.5836586Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/package/npm
+2024-10-24T14:27:47.5836769Z ==============================================================================
+2024-10-24T14:27:48.8719423Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.20.3\x64\npm.cmd --version"
+2024-10-24T14:27:49.8193989Z 10.7.0
+2024-10-24T14:27:52.0180858Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.20.3\x64\npm.cmd config list"
+2024-10-24T14:27:53.0944926Z ; "env" config from environment
+2024-10-24T14:27:53.0945095Z 
+2024-10-24T14:27:53.0945370Z userconfig = "D:\\Build\\1\\npm\\25.npmrc" 
+2024-10-24T14:27:53.0945500Z 
+2024-10-24T14:27:53.0945794Z ; node bin location = D:\Build\_tool\node\18.20.3\x64\node.exe
+2024-10-24T14:27:53.0946097Z ; node version = v18.20.3
+2024-10-24T14:27:53.0946513Z ; npm local prefix = D:\Build\1\s
+2024-10-24T14:27:53.0947270Z ; npm version = 10.7.0
+2024-10-24T14:27:53.0947628Z ; cwd = D:\Build\1\s
+2024-10-24T14:27:53.0948045Z ; HOME = C:\Windows\ServiceProfiles\NetworkService
+2024-10-24T14:27:53.0948884Z ; Run `npm config ls -l` to show all defaults.
+2024-10-24T14:27:53.0951793Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.20.3\x64\npm.cmd run initdev"
+2024-10-24T14:28:32.2023950Z 
+2024-10-24T14:28:32.2025904Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2024-10-24T14:28:32.2026701Z > initdev
+2024-10-24T14:28:32.2027731Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2024-10-24T14:28:32.2028242Z > npm run initdev:npm
+2024-10-24T14:28:32.2028779Z 
+2024-10-24T14:28:32.2029394Z npm warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+2024-10-24T14:28:32.2030010Z 
+2024-10-24T14:28:32.2030543Z npm warn deprecated glob@7.1.7: Glob versions prior to v9 are no longer supported
+2024-10-24T14:28:32.2031338Z > initdev:npm
+2024-10-24T14:28:32.2031908Z npm warn deprecated glob@7.1.2: Glob versions prior to v9 are no longer supported
+2024-10-24T14:28:32.2032814Z > npm run initdev:npm:base & npm run initdev:npm:tasks
+2024-10-24T14:28:32.2034490Z npm warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+2024-10-24T14:28:32.2035757Z 
+2024-10-24T14:28:32.2037051Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2024-10-24T14:28:32.2037813Z 
+2024-10-24T14:28:32.2038376Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2024-10-24T14:28:32.2039131Z > initdev:npm:base
+2024-10-24T14:28:32.2040236Z npm warn deprecated q@1.5.1: You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+2024-10-24T14:28:32.2043096Z > npm install --no-progress --no-update-notifier
+2024-10-24T14:28:32.2047093Z npm warn deprecated
+2024-10-24T14:28:32.2047690Z 
+2024-10-24T14:28:32.2048648Z npm warn deprecated (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
+2024-10-24T14:28:32.2049186Z 
+2024-10-24T14:28:32.2050403Z npm warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+2024-10-24T14:28:32.2051525Z added 422 packages, and audited 423 packages in 22s
+2024-10-24T14:28:32.2052941Z npm warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+2024-10-24T14:28:32.2053671Z 
+2024-10-24T14:28:32.2054853Z npm warn deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+2024-10-24T14:28:32.2055881Z 101 packages are looking for funding
+2024-10-24T14:28:32.2056739Z   run `npm fund` for details
+2024-10-24T14:28:32.2057190Z 
+2024-10-24T14:28:32.2057801Z found 0 vulnerabilities
+2024-10-24T14:28:32.2058205Z 
+2024-10-24T14:28:32.2058833Z > initdev:npm:tasks
+2024-10-24T14:28:32.2059907Z > glob-exec --parallel --foreach "*/tsconfig.json" -- "cd {{file.dir}} && npm install --no-update-notifier --no-progress"
+2024-10-24T14:28:32.2060566Z 
+2024-10-24T14:28:32.2060934Z 
+2024-10-24T14:28:32.2061607Z added 40 packages, and audited 41 packages in 8s
+2024-10-24T14:28:32.2062114Z 
+2024-10-24T14:28:32.2062731Z 6 packages are looking for funding
+2024-10-24T14:28:32.2063452Z   run `npm fund` for details
+2024-10-24T14:28:32.2063866Z 
+2024-10-24T14:28:32.2064418Z found 0 vulnerabilities
+2024-10-24T14:28:32.2064790Z 
+2024-10-24T14:28:32.2065393Z added 81 packages, and audited 82 packages in 8s
+2024-10-24T14:28:32.2065847Z 
+2024-10-24T14:28:32.2066486Z 12 packages are looking for funding
+2024-10-24T14:28:32.2067131Z   run `npm fund` for details
+2024-10-24T14:28:32.2067463Z 
+2024-10-24T14:28:32.2067996Z 3 vulnerabilities (1 moderate, 2 critical)
+2024-10-24T14:28:32.2068448Z 
+2024-10-24T14:28:32.2069025Z To address all issues, run:
+2024-10-24T14:28:32.2069593Z   npm audit fix
+2024-10-24T14:28:32.2069916Z 
+2024-10-24T14:28:32.2070426Z Run `npm audit` for details.
+2024-10-24T14:28:32.2070757Z 
+2024-10-24T14:28:32.2071301Z added 91 packages, and audited 92 packages in 10s
+2024-10-24T14:28:32.2071682Z 
+2024-10-24T14:28:32.2072237Z 13 packages are looking for funding
+2024-10-24T14:28:32.2072851Z   run `npm fund` for details
+2024-10-24T14:28:32.2073196Z 
+2024-10-24T14:28:32.2073781Z 4 vulnerabilities (1 moderate, 1 high, 2 critical)
+2024-10-24T14:28:32.2074183Z 
+2024-10-24T14:28:32.2075037Z To address all issues, run:
+2024-10-24T14:28:32.2077558Z   npm audit fix
+2024-10-24T14:28:32.2096036Z 
+2024-10-24T14:28:32.2109074Z Run `npm audit` for details.
+2024-10-24T14:28:32.3243784Z ##[section]Finishing: Install Node dependencies
+2024-10-24T14:28:32.3362608Z ##[section]Starting: Build the extension
+2024-10-24T14:28:32.3388817Z ==============================================================================
+2024-10-24T14:28:32.3389085Z Task         : npm
+2024-10-24T14:28:32.3389252Z Description  : Install and publish npm packages, or run an npm command. Supports npmjs.com and authenticated registries like Azure Artifacts.
+2024-10-24T14:28:32.3389626Z Version      : 1.244.3
+2024-10-24T14:28:32.3389816Z Author       : Microsoft Corporation
+2024-10-24T14:28:32.3390081Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/package/npm
+2024-10-24T14:28:32.3392501Z ==============================================================================
+2024-10-24T14:28:33.7700957Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.20.3\x64\npm.cmd --version"
+2024-10-24T14:28:34.7334643Z 10.7.0
+2024-10-24T14:28:36.9473654Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.20.3\x64\npm.cmd config list"
+2024-10-24T14:28:38.0884631Z ; "env" config from environment
+2024-10-24T14:28:38.0885105Z 
+2024-10-24T14:28:38.0885603Z userconfig = "D:\\Build\\1\\npm\\25.npmrc" 
+2024-10-24T14:28:38.0885890Z 
+2024-10-24T14:28:38.0886321Z ; node bin location = D:\Build\_tool\node\18.20.3\x64\node.exe
+2024-10-24T14:28:38.0886800Z ; node version = v18.20.3
+2024-10-24T14:28:38.0887198Z ; npm local prefix = D:\Build\1\s
+2024-10-24T14:28:38.0887595Z ; npm version = 10.7.0
+2024-10-24T14:28:38.0887969Z ; cwd = D:\Build\1\s
+2024-10-24T14:28:38.0888390Z ; HOME = C:\Windows\ServiceProfiles\NetworkService
+2024-10-24T14:28:38.0889170Z ; Run `npm config ls -l` to show all defaults.
+2024-10-24T14:28:38.0892295Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.20.3\x64\npm.cmd run build"
+2024-10-24T14:28:55.3198329Z 
+2024-10-24T14:28:55.3198980Z > build
+2024-10-24T14:28:55.3200095Z D:\Build\1\s\node_modules\glob-exec\lib\cli.js:55
+2024-10-24T14:28:55.3200615Z     setImmediate(() => { throw reason; });
+2024-10-24T14:28:55.3200951Z                          ^
+2024-10-24T14:28:55.3201086Z 
+2024-10-24T14:28:55.3201625Z > glob-exec "*/tsconfig.json" -- "tsc -b {{files.join(' ')}}"
+2024-10-24T14:28:55.3201825Z 
+2024-10-24T14:28:55.3202644Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(5,36): error TS2307: Cannot find module '/azureDevOps/interfaces' or its corresponding type declarations.
+2024-10-24T14:28:55.3203704Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(6,24): error TS2307: Cannot find module '/azureDevOps/WebApi' or its corresponding type declarations.
+2024-10-24T14:28:55.3204766Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(7,21): error TS2307: Cannot find module '/variableHelpers' or its corresponding type declarations.
+2024-10-24T14:28:55.3205763Z Error: Command failed: tsc -b blueStage/tsconfig.json common/tsconfig.json generatePartNumber/tsconfig.json
+2024-10-24T14:28:55.3206359Z     at checkExecSyncError (node:child_process:890:11)
+2024-10-24T14:28:55.3206889Z     at Object.execSync (node:child_process:962:15)
+2024-10-24T14:28:55.3207642Z     at executeSync (D:\Build\1\s\node_modules\glob-exec\lib\cli.js:27:21) {
+2024-10-24T14:28:55.3208114Z   status: 2,
+2024-10-24T14:28:55.3208419Z   signal: null,
+2024-10-24T14:28:55.3208751Z   output: [ null, null, null ],
+2024-10-24T14:28:55.3209071Z   pid: 6540,
+2024-10-24T14:28:55.3209384Z   stdout: null,
+2024-10-24T14:28:55.3209687Z   stderr: null
+2024-10-24T14:28:55.3209968Z }
+2024-10-24T14:28:55.3210079Z 
+2024-10-24T14:28:55.3210366Z Node.js v18.20.3
+2024-10-24T14:28:55.3861499Z ##[warning]Couldn't find a debug log in the cache or working directory
+2024-10-24T14:28:55.3973977Z ##[error]Error: Npm failed with return code: 1
+2024-10-24T14:28:55.4334544Z ##[section]Finishing: Build the extension
+2024-10-24T14:28:55.4387419Z Skipping step due to condition evaluation.
+Evaluating: SucceededNode()
+Result: False
+
+2024-10-24T14:28:55.4438245Z ##[section]Starting: Publish test results
+2024-10-24T14:28:55.4453323Z ==============================================================================
+2024-10-24T14:28:55.4453527Z Task         : Publish Test Results
+2024-10-24T14:28:55.4453645Z Description  : Publish test results to Azure Pipelines
+2024-10-24T14:28:55.4453785Z Version      : 2.247.1
+2024-10-24T14:28:55.4453903Z Author       : Microsoft Corporation
+2024-10-24T14:28:55.4454027Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/test/publish-test-results
+2024-10-24T14:28:55.4454222Z ==============================================================================
+2024-10-24T14:29:00.4994727Z [command]"C:\Program Files\dotnet\dotnet.exe" --version
+2024-10-24T14:29:00.8954429Z 8.0.400
+2024-10-24T14:29:00.9018622Z ##[warning]No test result files matching '[ '**/test-results.xml' ]' were found.
+2024-10-24T14:29:00.9596483Z ##[section]Finishing: Publish test results
+2024-10-24T14:29:00.9812105Z Skipping step due to condition evaluation.
+Evaluating: SucceededNode()
+Result: False
+
+2024-10-24T14:29:00.9938552Z Skipping step due to condition evaluation.
+Evaluating: SucceededNode()
+Result: False
+
+2024-10-24T14:29:01.0018983Z Skipping step due to condition evaluation.
+Evaluating: SucceededNode()
+Result: False
+
+2024-10-24T14:29:01.0126607Z ##[section]Starting: Checkout thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib@main to s
+2024-10-24T14:29:01.0143924Z ==============================================================================
+2024-10-24T14:29:01.0144263Z Task         : Get sources
+2024-10-24T14:29:01.0144424Z Description  : Get sources from a repository. Supports Git, TfsVC, and SVN repositories.
+2024-10-24T14:29:01.0144717Z Version      : 1.0.0
+2024-10-24T14:29:01.0144869Z Author       : Microsoft
+2024-10-24T14:29:01.0145044Z Help         : [More Information](https://go.microsoft.com/fwlink/?LinkId=798199)
+2024-10-24T14:29:01.0145299Z ==============================================================================
+2024-10-24T14:29:02.2653609Z Cleaning any cached credential from repository: thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib (GitHub)
+2024-10-24T14:29:02.2796857Z ##[section]Finishing: Checkout thermofisher-development/cad-mcs-madison-azure-pipelines-task-lib@main to s
+2024-10-24T14:29:02.2974001Z ##[section]Starting: Finalize Job
+2024-10-24T14:29:02.3026112Z Cleaning up task key
+2024-10-24T14:29:02.3029339Z Start cleaning up orphan processes.
+2024-10-24T14:29:02.4290992Z ##[section]Finishing: Finalize Job
+2024-10-24T14:29:02.4471471Z ##[section]Finishing: Run unit tests

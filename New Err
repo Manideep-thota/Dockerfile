@@ -1,0 +1,194 @@
+2024-10-24T16:21:34.8266984Z ##[section]Starting: Build the extension
+2024-10-24T16:21:34.8288974Z ==============================================================================
+2024-10-24T16:21:34.8289302Z Task         : npm
+2024-10-24T16:21:34.8289475Z Description  : Install and publish npm packages, or run an npm command. Supports npmjs.com and authenticated registries like Azure Artifacts.
+2024-10-24T16:21:34.8289835Z Version      : 1.244.3
+2024-10-24T16:21:34.8290004Z Author       : Microsoft Corporation
+2024-10-24T16:21:34.8290185Z Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/package/npm
+2024-10-24T16:21:34.8290426Z ==============================================================================
+2024-10-24T16:21:36.1312771Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.17.0\x64\npm.cmd --version"
+2024-10-24T16:21:38.5200634Z 9.6.7
+2024-10-24T16:21:43.4992787Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.17.0\x64\npm.cmd config list"
+2024-10-24T16:21:45.9520153Z ; "env" config from environment
+2024-10-24T16:21:45.9520393Z 
+2024-10-24T16:21:45.9520835Z userconfig = "D:\\Build\\1\\npm\\26.npmrc" 
+2024-10-24T16:21:45.9521041Z 
+2024-10-24T16:21:45.9521689Z ; node bin location = D:\Build\_tool\node\18.17.0\x64\node.exe
+2024-10-24T16:21:45.9522162Z ; node version = v18.17.0
+2024-10-24T16:21:45.9522605Z ; npm local prefix = D:\Build\1\s
+2024-10-24T16:21:45.9522973Z ; npm version = 9.6.7
+2024-10-24T16:21:45.9523295Z ; cwd = D:\Build\1\s
+2024-10-24T16:21:45.9523711Z ; HOME = C:\Windows\ServiceProfiles\NetworkService
+2024-10-24T16:21:45.9524502Z ; Run `npm config ls -l` to show all defaults.
+2024-10-24T16:21:45.9538948Z [command]C:\Windows\system32\cmd.exe /D /S /C "D:\Build\_tool\node\18.17.0\x64\npm.cmd run build --loglevel verbose "--max-old-space-size=4096""
+2024-10-24T16:22:01.6190064Z 
+2024-10-24T16:22:01.6191182Z > build
+2024-10-24T16:22:01.6192278Z > glob-exec "*/tsconfig.json" -- "tsc -b {{files.join(' ')}}"
+2024-10-24T16:22:01.6192513Z 
+2024-10-24T16:22:01.6193333Z blueStage/task.ts(1,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/task' or its corresponding type declarations.
+2024-10-24T16:22:01.6194396Z blueStage/Task 1/blueStage/blueStage V1/task.ts(1,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/task' or its corresponding type declarations.
+2024-10-24T16:22:01.6195453Z blueStage/test/interfaces.ts(1,32): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6198038Z blueStage/test/TestSettings.ts(1,32): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6199597Z blueStage/test/TestSettings.ts(2,21): error TS2307: Cannot find module 'class-transformer' or its corresponding type declarations.
+2024-10-24T16:22:01.6200993Z blueStage/test/setupTaskMockRunner.ts(1,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-run' or its corresponding type declarations.
+2024-10-24T16:22:01.6202351Z blueStage/test/testSuite.ts(2,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/internal' or its corresponding type declarations.
+2024-10-24T16:22:01.6203560Z blueStage/test/testSuite.ts(3,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-test' or its corresponding type declarations.
+2024-10-24T16:22:01.6204778Z blueStage/test/testSuite.ts(33,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6205842Z blueStage/test/testSuite.ts(34,3): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+2024-10-24T16:22:01.6207654Z blueStage/test/testSuite.ts(36,3): error TS2304: Cannot find name 'before'.
+2024-10-24T16:22:01.6208410Z blueStage/test/testSuite.ts(41,3): error TS2304: Cannot find name 'beforeEach'.
+2024-10-24T16:22:01.6209307Z blueStage/test/testSuite.ts(45,3): error TS2304: Cannot find name 'afterEach'.
+2024-10-24T16:22:01.6214001Z blueStage/test/testSuite.ts(51,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6215259Z blueStage/test/testSuite.ts(52,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6216566Z blueStage/test/testSuite.ts(53,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6217592Z blueStage/test/testSuite.ts(56,125): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6218363Z blueStage/test/testSuite.ts(67,42): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6219153Z blueStage/test/testSuite.ts(79,47): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6220067Z blueStage/test/testSuite.ts(90,40): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6221100Z blueStage/test/testSuite.ts(96,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6222365Z blueStage/test/testSuite.ts(115,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6223622Z blueStage/test/testSuite.ts(134,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6224946Z blueStage/test/testSuite.ts(153,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6226376Z blueStage/test/testSuite.ts(172,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6227706Z blueStage/test/testSuite.ts(191,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6229432Z blueStage/test/testSuite.ts(210,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6230795Z blueStage/test/testSuite.ts(216,3): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6232107Z blueStage/test/testSuite.ts(222,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6233095Z blueStage/test/testSuite.ts(222,39): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6234169Z blueStage/test/testSuite.ts(250,3): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6235271Z blueStage/test/testSuite.ts(250,41): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6237089Z blueStage/test/testSuite.ts(283,65): error TS7006: Parameter 'value' implicitly has an 'any' type.
+2024-10-24T16:22:01.6238051Z common/interfaces.ts(1,23): error TS2307: Cannot find module 'azure-pipelines-task-lib/task' or its corresponding type declarations.
+2024-10-24T16:22:01.6241076Z common/interfaces.ts(2,57): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6242088Z common/MockDirectory.ts(1,32): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6243108Z common/MockFile.ts(1,32): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6244112Z common/TestSettingsBase.ts(1,26): error TS2307: Cannot find module 'azure-pipelines-task-lib' or its corresponding type declarations.
+2024-10-24T16:22:01.6245148Z common/TestSettingsBase.ts(2,57): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6246154Z common/TestSettingsBase.ts(3,21): error TS2307: Cannot find module 'class-transformer' or its corresponding type declarations.
+2024-10-24T16:22:01.6247173Z generatePartNumber/variableHelpers.ts(1,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/task' or its corresponding type declarations.
+2024-10-24T16:22:01.6248252Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(1,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/task' or its corresponding type declarations.
+2024-10-24T16:22:01.6249576Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(5,36): error TS2307: Cannot find module '/azureDevOps/interfaces' or its corresponding type declarations.
+2024-10-24T16:22:01.6250689Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(6,24): error TS2307: Cannot find module '/azureDevOps/WebApi' or its corresponding type declarations.
+2024-10-24T16:22:01.6251806Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(7,21): error TS2307: Cannot find module '/variableHelpers' or its corresponding type declarations.
+2024-10-24T16:22:01.6252835Z generatePartNumber/Task1/generatePartNumber-V1/task.ts(114,19): error TS7006: Parameter 'source' implicitly has an 'any' type.
+2024-10-24T16:22:01.6253867Z generatePartNumber/azureDevOps/Artifacts.ts(6,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/task' or its corresponding type declarations.
+2024-10-24T16:22:01.6254904Z common/interfaces.ts(1,23): error TS2307: Cannot find module 'azure-pipelines-task-lib/task' or its corresponding type declarations.
+2024-10-24T16:22:01.6255916Z common/interfaces.ts(2,57): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6256912Z common/TestSettingsBase.ts(1,26): error TS2307: Cannot find module 'azure-pipelines-task-lib' or its corresponding type declarations.
+2024-10-24T16:22:01.6258231Z common/TestSettingsBase.ts(2,57): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6259834Z common/TestSettingsBase.ts(3,21): error TS2307: Cannot find module 'class-transformer' or its corresponding type declarations.
+2024-10-24T16:22:01.6261247Z generatePartNumber/test/setupTaskMockRunner.ts(1,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-run' or its corresponding type declarations.
+2024-10-24T16:22:01.6262369Z generatePartNumber/test/testBuildDefinitionId.ts(2,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/internal' or its corresponding type declarations.
+2024-10-24T16:22:01.6263783Z generatePartNumber/test/testBuildDefinitionId.ts(6,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6266221Z generatePartNumber/test/testBuildDefinitionId.ts(7,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6267659Z generatePartNumber/test/testBuildDefinitionId.ts(12,9): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6270365Z generatePartNumber/test/testBuildDefinitionId.ts(13,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6271735Z generatePartNumber/test/testBuildDefinitionId.ts(18,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6273384Z generatePartNumber/test/testBuildDefinitionId.ts(23,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6274762Z generatePartNumber/test/testBuildDefinitionId.ts(28,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6277633Z generatePartNumber/test/testBuildDefinitionId.ts(34,9): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6278986Z generatePartNumber/test/testBuildDefinitionId.ts(35,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6279900Z generatePartNumber/test/testBuildDefinitionId.ts(41,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6280779Z generatePartNumber/test/testBuildDefinitionId.ts(47,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6281659Z generatePartNumber/test/testBuildDefinitionId.ts(53,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6282429Z generatePartNumber/test/testBuildId.ts(2,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/internal' or its corresponding type declarations.
+2024-10-24T16:22:01.6283244Z generatePartNumber/test/testBuildId.ts(6,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6284113Z generatePartNumber/test/testBuildId.ts(7,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6284971Z generatePartNumber/test/testBuildId.ts(12,9): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6287124Z generatePartNumber/test/testBuildId.ts(13,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6288064Z generatePartNumber/test/testBuildId.ts(18,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6289695Z generatePartNumber/test/testBuildId.ts(23,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6290892Z generatePartNumber/test/testBuildId.ts(28,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6292030Z generatePartNumber/test/testBuildId.ts(34,9): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6293003Z generatePartNumber/test/testBuildId.ts(35,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6293968Z generatePartNumber/test/testBuildId.ts(41,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6294851Z generatePartNumber/test/testBuildId.ts(47,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6296145Z npm verb cli D:\Build\_tool\node\18.17.0\x64\node.exe D:\Build\_tool\node\18.17.0\x64\node_modules\npm\bin\npm-cli.js
+2024-10-24T16:22:01.6296863Z npm info using npm@9.6.7
+2024-10-24T16:22:01.6297215Z npm info using node@v18.17.0
+2024-10-24T16:22:01.6297512Z npm verb title npm run build
+2024-10-24T16:22:01.6298084Z npm verb argv "run" "build" "--loglevel" "verbose" "--max-old-space-size" "4096"
+2024-10-24T16:22:01.6298748Z npm verb logfile logs-max:10 dir:C:\Windows\ServiceProfiles\NetworkService\AppData\Local\npm-cache\_logs\2024-10-24T16_21_48_179Z-
+2024-10-24T16:22:01.6299455Z npm verb logfile C:\Windows\ServiceProfiles\NetworkService\AppData\Local\npm-cache\_logs\2024-10-24T16_21_48_179Z-debug-0.log
+2024-10-24T16:22:01.6300159Z D:\Build\1\s\node_modules\glob-exec\lib\cli.js:55
+2024-10-24T16:22:01.6300493Z     setImmediate(() => { throw reason; });
+2024-10-24T16:22:01.6300738Z                          ^
+2024-10-24T16:22:01.6300826Z 
+2024-10-24T16:22:01.6301413Z Error: Command failed: tsc -b blueStage/tsconfig.json common/tsconfig.json generatePartNumber/tsconfig.json
+2024-10-24T16:22:01.6301884Z     at checkExecSyncError (node:child_process:885:11)
+2024-10-24T16:22:01.6302298Z     at Object.execSync (node:child_process:957:15)
+2024-10-24T16:22:01.6302833Z     at executeSync (D:\Build\1\s\node_modules\glob-exec\lib\cli.js:27:21) {
+2024-10-24T16:22:01.6303149Z   status: 1,
+2024-10-24T16:22:01.6303371Z   signal: null,
+2024-10-24T16:22:01.6303622Z   output: [ null, null, null ],
+2024-10-24T16:22:01.6303851Z   pid: 7236,
+2024-10-24T16:22:01.6304131Z   stdout: null,
+2024-10-24T16:22:01.6304452Z   stderr: null
+2024-10-24T16:22:01.6304813Z }
+2024-10-24T16:22:01.6304912Z 
+2024-10-24T16:22:01.6305124Z Node.js v18.17.0
+2024-10-24T16:22:01.6305357Z npm verb exit 1
+2024-10-24T16:22:01.6305570Z npm verb code 1
+2024-10-24T16:22:01.6306315Z generatePartNumber/test/testBuildId.ts(53,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6307151Z common/MockDirectory.ts(1,32): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6307825Z common/MockFile.ts(1,32): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-answer' or its corresponding type declarations.
+2024-10-24T16:22:01.6308650Z generatePartNumber/test/variableHelpersTests.ts(2,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/internal' or its corresponding type declarations.
+2024-10-24T16:22:01.6310430Z generatePartNumber/test/variableHelpersTests.ts(9,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6312874Z generatePartNumber/test/variableHelpersTests.ts(10,9): error TS2304: Cannot find name 'beforeEach'.
+2024-10-24T16:22:01.6313980Z generatePartNumber/test/variableHelpersTests.ts(17,9): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6314930Z generatePartNumber/test/variableHelpersTests.ts(18,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6315830Z generatePartNumber/test/variableHelpersTests.ts(23,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6316725Z generatePartNumber/test/variableHelpersTests.ts(28,9): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6317619Z generatePartNumber/test/variableHelpersTests.ts(29,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6318902Z generatePartNumber/test/variableHelpersTests.ts(34,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6319804Z generatePartNumber/test/variableHelpersTests.ts(38,13): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6320585Z generatePartNumber/test/testSuite.ts(2,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/internal' or its corresponding type declarations.
+2024-10-24T16:22:01.6321287Z generatePartNumber/test/testSuite.ts(3,21): error TS2307: Cannot find module 'azure-pipelines-task-lib/mock-test' or its corresponding type declarations.
+2024-10-24T16:22:01.6322192Z generatePartNumber/test/testSuite.ts(16,1): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6323040Z generatePartNumber/test/testSuite.ts(17,5): error TS2304: Cannot find name 'before'.
+2024-10-24T16:22:01.6323579Z generatePartNumber/test/testSuite.ts(22,5): error TS2304: Cannot find name 'beforeEach'.
+2024-10-24T16:22:01.6324112Z generatePartNumber/test/testSuite.ts(26,5): error TS2304: Cannot find name 'afterEach'.
+2024-10-24T16:22:01.6324723Z generatePartNumber/test/testSuite.ts(34,5): error TS2683: 'this' implicitly has type 'any' because it does not have a type annotation.
+2024-10-24T16:22:01.6325301Z generatePartNumber/test/testSuite.ts(41,125): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6326043Z generatePartNumber/test/testSuite.ts(54,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6328956Z generatePartNumber/test/testSuite.ts(55,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6330630Z generatePartNumber/test/testSuite.ts(55,60): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6331561Z generatePartNumber/test/testSuite.ts(67,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6332681Z generatePartNumber/test/testSuite.ts(67,64): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6333424Z generatePartNumber/test/testSuite.ts(91,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6334276Z generatePartNumber/test/testSuite.ts(92,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6335013Z generatePartNumber/test/testSuite.ts(92,58): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6335801Z generatePartNumber/test/testSuite.ts(101,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6336449Z generatePartNumber/test/testSuite.ts(101,62): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6337171Z generatePartNumber/test/testSuite.ts(114,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6337812Z generatePartNumber/test/testSuite.ts(114,60): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6338619Z generatePartNumber/test/testSuite.ts(124,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6339436Z generatePartNumber/test/testSuite.ts(124,65): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6340255Z generatePartNumber/test/testSuite.ts(137,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6341071Z generatePartNumber/test/testSuite.ts(137,63): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6365034Z generatePartNumber/test/testSuite.ts(147,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6372403Z generatePartNumber/test/testSuite.ts(147,52): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6373564Z generatePartNumber/test/testSuite.ts(165,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6374993Z generatePartNumber/test/testSuite.ts(170,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6376588Z generatePartNumber/test/testSuite.ts(170,64): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6377808Z generatePartNumber/test/testSuite.ts(177,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6379144Z generatePartNumber/test/testSuite.ts(190,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6380202Z generatePartNumber/test/testSuite.ts(190,49): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6382264Z generatePartNumber/test/testSuite.ts(203,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6382924Z generatePartNumber/test/testSuite.ts(203,45): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6384090Z generatePartNumber/test/testSuite.ts(218,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6384925Z generatePartNumber/test/testSuite.ts(218,49): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6385809Z generatePartNumber/test/testSuite.ts(236,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6386671Z generatePartNumber/test/testSuite.ts(245,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6387319Z generatePartNumber/test/testSuite.ts(245,53): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6388043Z generatePartNumber/test/testSuite.ts(257,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6388684Z generatePartNumber/test/testSuite.ts(257,60): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6389420Z generatePartNumber/test/testSuite.ts(272,5): error TS2582: Cannot find name 'describe'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6390266Z generatePartNumber/test/testSuite.ts(279,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6390906Z generatePartNumber/test/testSuite.ts(279,68): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6391619Z generatePartNumber/test/testSuite.ts(283,9): error TS2582: Cannot find name 'it'. Do you need to install type definitions for a test runner? Try `npm i --save-dev @types/jest` or `npm i --save-dev @types/mocha`.
+2024-10-24T16:22:01.6392259Z generatePartNumber/test/testSuite.ts(283,67): error TS2503: Cannot find namespace 'Mocha'.
+2024-10-24T16:22:01.6392822Z generatePartNumber/test/testSuite.ts(341,68): error TS7006: Parameter 'value' implicitly has an 'any' type.
+2024-10-24T16:22:01.7282111Z ##[warning]Couldn't find a debug log in the cache or working directory
+2024-10-24T16:22:01.7289339Z ##[error]Error: Npm failed with return code: 1
+2024-10-24T16:22:01.7926148Z ##[section]Finishing: Build the extension

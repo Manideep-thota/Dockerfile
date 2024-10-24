@@ -1,0 +1,216 @@
+# By default, trigger a build for any changes in the 'main' branch and any branch matching 'enhancements/*' except for changes to the docs folder or the readme file
+trigger:
+  branches:
+    include:
+      - main
+      - enhancements/*
+  paths:
+    exclude:
+      - .gitignore
+      - docs/*
+      - README.md
+
+pr:
+  branches:
+    include:
+      - releases/*
+  paths:
+    exclude:
+      - .gitignore
+      - docs/*
+      - README.md
+
+parameters:
+  - name: ForceNewBaseline
+    displayName: Reset warnings and code coverage baseline
+    type: boolean
+    default: false
+
+pool:
+  name: 'Default' # This uses the agent pool maintained by the Madison DevOps team
+
+variables:
+- name: disable.coverage.autogenerate
+  value: true
+- name: PublisherID
+  value: 'ThermoFisherScientific'
+- name: ExtensionID
+  value: 'TFSMadisonUtilities'
+- name: ArtifactName
+  value: 'Extension Packages'
+- name: JFrogBuildName
+  value: 'madison-site-$(Build.DefinitionName)'
+- name: BQC.ForceNewBaseline
+  value: ${{parameters.ForceNewBaseline}}
+
+stages:
+- stage: test_and_package
+  displayName: 'Build, test, and package'
+
+  jobs:
+  - job:
+    displayName: 'Run unit tests'
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: '18.x'
+
+    - task: Npm@1
+      displayName: 'Install Node dependencies'
+      inputs:
+        command: 'custom'
+        customCommand: 'run initdev'
+
+    - task: Npm@1
+      displayName: 'Build the extension'
+      inputs:
+        command: 'custom'
+        customCommand: 'run build'
+
+    - task: Npm@1
+      displayName: 'Run tests'
+      inputs:
+        command: 'custom'
+        customCommand: 'run cover'
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      displayName: 'Publish test results'
+      inputs:
+        testRunner: JUnit
+        testResultsFiles: '**/test-results.xml'
+
+    - task: reportgenerator@5
+      displayName: ReportGenerator
+      inputs:
+        reports: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+        targetdir: '$(Common.TestResultsDirectory)/reports'
+        assemblyfilters: '+*;-*test*'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage from $(Common.TestResultsDirectory)\reports\cobertura.xml'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(Common.TestResultsDirectory)\reports\cobertura.xml'
+        reportDirectory: '$(Common.TestResultsDirectory)\reports'
+
+    - task: BuildQualityChecks@9
+      displayName: 'Check build quality'
+      inputs:
+        checkWarnings: true
+        warningFailOption: 'build'
+        showStatistics: true
+        checkCoverage: false
+        coverageFailOption: 'build'
+        coverageType: 'branches'
+        coveragePrecision: '1'
+
+  - job:
+    displayName: 'Package extension'
+    steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+        versionSpec: '18.x'
+
+    - task: TfxInstaller@4
+      displayName: 'Install tfs-cli'
+      inputs:
+        version: 'v0.x'
+
+    - task: Npm@1
+      displayName: 'Install Node dependencies'
+      inputs:
+        command: 'custom'
+        customCommand: 'run initdev'
+
+    - task: Npm@1
+      displayName: 'Build the extension'
+      inputs:
+        command: 'custom'
+        customCommand: 'run build:package'
+
+    - task: QueryAzureDevOpsExtensionVersion@4
+      displayName: 'Get next package version'
+      name: getVersion
+      inputs:
+        connectTo: 'VsTeam'
+        connectedServiceName: 'Visual Studio Marketplace'
+        publisherId: '$(PublisherID)'
+        extensionId: '$(ExtensionID)'
+        versionAction: Patch
+
+    - task: PackageAzureDevOpsExtension@4
+      displayName: 'Package the extension'
+      inputs:
+        rootFolder: '$(System.DefaultWorkingDirectory)'
+        publisherId: '$(PublisherID)'
+        extensionId: '$(ExtensionID)'
+        extensionVersion: '$(getVersion.Extension.Version)'
+        updateTasksVersion: true
+        updateTasksVersionType: 'Patch'
+        updateTasksId: true
+        extensionVisibility: 'private'
+        extensionPricing: 'free'
+
+    - task: CopyFiles@2
+      displayName: 'Copy Files to $(Build.ArtifactStagingDirectory)'
+      inputs:
+        contents: '**/*.vsix'
+        targetFolder: '$(Build.ArtifactStagingDirectory)'
+        cleanTargetFolder: true
+
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Artifact: $(ArtifactName)'
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifactName: '$(ArtifactName)'
+
+- stage: Download_build_artifacts_and_publish_the_extension
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  displayName: 'Publish extension'
+  jobs:
+  - job:
+    displayName: 'Publish extension to Visual Studio Marketplace'
+    steps:
+      - task: NodeTool@0
+        displayName: 'Install Node.js'
+        inputs:
+          versionSpec: '18.x'
+
+      - task: TfxInstaller@4
+        displayName: 'Install tfs-cli'
+        inputs:
+          version: 'v0.x'
+
+      - task: DownloadPipelineArtifact@2
+        displayName: 'Download Artifact: $(ArtifactName)'
+        inputs:
+          artifactName: "$(ArtifactName)"
+          buildType: 'current'
+          targetPath: "$(System.DefaultWorkingDirectory)"
+
+      - task: PublishAzureDevOpsExtension@4
+        displayName: 'Publish the extension'
+        inputs:
+          connectTo: 'VsTeam'
+          connectedServiceName: 'Visual Studio Marketplace'
+          fileType: 'vsix'
+          vsixFile: '$(PublisherID).*.vsix'
+          publisherId: '$(PublisherID)'
+          extensionId: '$(ExtensionID)'
+          updateTasksVersion: false
+          extensionVisibility: private
+          extensionPricing: free
+          shareWith: 'tfsmadison-dev'
+
+      - task: QueryAzureDevOpsExtensionVersion@4
+        displayName: 'Update build number'
+        inputs:
+          connectTo: 'VsTeam'
+          connectedServiceName: 'Visual Studio Marketplace'
+          publisherId: '$(PublisherID)'
+          extensionId: '$(ExtensionID)'
+          versionAction: 'None'
+          setBuildNumber: 'true'

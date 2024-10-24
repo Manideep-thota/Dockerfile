@@ -1,5 +1,3 @@
-
-# By default, trigger a build for any changes in the 'main' branch and any branch matching 'enhancements/*' except for changes to the docs folder or the readme file
 trigger:
   branches:
     include:
@@ -31,18 +29,18 @@ pool:
   name: 'Default' # This uses the agent pool maintained by the Madison DevOps team
 
 variables:
-- name: disable.coverage.autogenerate
-  value: true
-- name: PublisherID
-  value: 'ThermoFisherScientific'
-- name: ExtensionID
-  value: 'TFSMadisonUtilities'
-- name: ArtifactName
-  value: 'Extension Packages'
-- name: JFrogBuildName
-  value: 'madison-site-$(Build.DefinitionName)'
-- name: BQC.ForceNewBaseline
-  value: ${{parameters.ForceNewBaseline}}
+  - name: disable.coverage.autogenerate
+    value: true
+  - name: PublisherID
+    value: 'ThermoFisherScientific'
+  - name: ExtensionID
+    value: 'TFSMadisonUtilities'
+  - name: ArtifactName
+    value: 'Extension Packages'
+  - name: JFrogBuildName
+    value: 'madison-site-$(Build.DefinitionName)'
+  - name: BQC.ForceNewBaseline
+    value: ${{parameters.ForceNewBaseline}}
 
 stages:
 - stage: test_and_package
@@ -55,25 +53,25 @@ stages:
     - task: NodeTool@0
       displayName: 'Install Node.js'
       inputs:
-        versionSpec: '18.x'
+        versionSpec: '18.17.0'  # Use specific version to avoid compatibility issues
 
     - task: Npm@1
       displayName: 'Install Node dependencies'
       inputs:
         command: 'custom'
-        customCommand: 'run initdev'
+        customCommand: 'install --loglevel verbose --retry 3'  # Added retry and verbose logging
 
     - task: Npm@1
       displayName: 'Build the extension'
       inputs:
         command: 'custom'
-        customCommand: 'run build'
+        customCommand: 'run build --loglevel verbose --max-old-space-size=4096'  # Added memory allocation and verbose logging
 
     - task: Npm@1
       displayName: 'Run tests'
       inputs:
         command: 'custom'
-        customCommand: 'run cover'
+        customCommand: 'run cover --loglevel verbose --max-old-space-size=4096'  # Added memory allocation and verbose logging
 
     - task: PublishTestResults@2
       condition: succeededOrFailed()
@@ -83,7 +81,7 @@ stages:
         testResultsFiles: '**/test-results.xml'
 
     - task: reportgenerator@5
-      displayName: ReportGenerator
+      displayName: 'ReportGenerator'
       inputs:
         reports: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
         targetdir: '$(Common.TestResultsDirectory)/reports'
@@ -113,7 +111,7 @@ stages:
     - task: NodeTool@0
       displayName: 'Install Node.js'
       inputs:
-        versionSpec: '18.x'
+        versionSpec: '18.17.0'
 
     - task: TfxInstaller@4
       displayName: 'Install tfs-cli'
@@ -124,13 +122,13 @@ stages:
       displayName: 'Install Node dependencies'
       inputs:
         command: 'custom'
-        customCommand: 'run initdev'
+        customCommand: 'install --loglevel verbose --retry 3'  # Added retry and verbose logging
 
     - task: Npm@1
       displayName: 'Build the extension'
       inputs:
         command: 'custom'
-        customCommand: 'run build:package'
+        customCommand: 'run build:package --loglevel verbose --max-old-space-size=4096'  # Added memory allocation and verbose logging
 
     - task: QueryAzureDevOpsExtensionVersion@4
       displayName: 'Get next package version'
@@ -178,7 +176,7 @@ stages:
       - task: NodeTool@0
         displayName: 'Install Node.js'
         inputs:
-          versionSpec: '18.x'
+          versionSpec: '18.17.0'
 
       - task: TfxInstaller@4
         displayName: 'Install tfs-cli'

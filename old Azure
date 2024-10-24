@@ -60,19 +60,19 @@ stages:
       displayName: 'Install Node dependencies'
       inputs:
         command: 'custom'
-        customCommand: 'run initdev'
+        customCommand: 'run initdev --verbose'  # Added verbose logging
 
     - task: Npm@1
       displayName: 'Build the extension'
       inputs:
         command: 'custom'
-        customCommand: 'run build'
+        customCommand: 'run build --verbose'  # Added verbose logging
 
     - task: Npm@1
       displayName: 'Run tests'
       inputs:
         command: 'custom'
-        customCommand: 'run cover'
+        customCommand: 'run cover --verbose'  # Added verbose logging
 
     - task: PublishTestResults@2
       condition: succeededOrFailed()
@@ -123,13 +123,13 @@ stages:
       displayName: 'Install Node dependencies'
       inputs:
         command: 'custom'
-        customCommand: 'run initdev'
+        customCommand: 'run initdev --verbose'  # Added verbose logging
 
     - task: Npm@1
       displayName: 'Build the extension'
       inputs:
         command: 'custom'
-        customCommand: 'run build:package'
+        customCommand: 'run build:package --verbose'  # Added verbose logging
 
     - task: QueryAzureDevOpsExtensionVersion@4
       displayName: 'Get next package version'
